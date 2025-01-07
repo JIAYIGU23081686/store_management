@@ -50,7 +50,7 @@ public class QueueOfCustomers {
     }
     
     public List<Customer> getCustomers() {
-        return new ArrayList<>(customers);  // 返回已排序列表的副本
+        return new ArrayList<>(customers);  // 返回列表的副本
     }
     
     public boolean removeCustomer(String name) {

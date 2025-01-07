@@ -3,11 +3,14 @@ package depot.service;
 import depot.model.Customer;
 import depot.model.Parcel;
 import depot.util.Log;
+import depot.gui.model.DepotModel;
+import depot.gui.view.MainFrame;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner;
+import javax.swing.SwingUtilities;
 
 public class Manager {
     private Worker worker;
@@ -191,17 +194,12 @@ public class Manager {
     }
     
     private void showSystemStatus() {
-        // 显示客户队列
-        System.out.println("\n1. 客户队列 (Customer Queue):");
-        worker.displayCustomerQueue();
-        
-        // 显示包裹列表
-        System.out.println("\n2. 包裹列表 (Parcel List):");
-        worker.displayParcels();
-        
-        // 显示统计信息
-        System.out.println("\n3. 统计信息 (Statistics):");
-        worker.displayStatistics();
+        // 使用GUI显示包裹列表
+        SwingUtilities.invokeLater(() -> {
+            DepotModel model = new DepotModel(worker);
+            MainFrame frame = new MainFrame(model);
+            frame.setVisible(true);
+        });
     }
     
     private void findParcel() {

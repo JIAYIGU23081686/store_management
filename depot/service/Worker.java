@@ -194,4 +194,8 @@ public class Worker {
     public double getDailyTotalFee() {
         return dailyTotalFee;
     }
+    
+    public QueueOfCustomers getCustomerQueue() {
+        return customerQueue;
+    }
 } 
