@@ -42,4 +42,15 @@ public class DepotModel extends Observable {
         worker.addParcel(parcel);
         refreshData();
     }
+    
+    public void addCustomer(Customer customer) {
+        worker.addCustomer(customer);
+        refreshData();
+    }
+    
+    public boolean removeCustomer(String name) {
+        boolean result = worker.removeCustomer(name);
+        refreshData();
+        return result;
+    }
 } 

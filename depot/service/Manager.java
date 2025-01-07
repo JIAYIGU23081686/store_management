@@ -6,6 +6,7 @@ import depot.util.Log;
 import depot.gui.model.DepotModel;
 import depot.gui.view.MainFrame;
 import depot.gui.view.AddParcelDialog;
+import depot.gui.view.AddCustomerDialog;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -151,24 +152,11 @@ public class Manager {
     }
     
     private void addNewCustomer() {
-        Scanner scanner = new Scanner(System.in);
-        try {
-            System.out.println("请输入客户信息 (Enter customer information):");
-            System.out.print("姓名 (Name): ");
-            String name = scanner.nextLine().trim();
-            
-            System.out.print("包裹ID (Parcel ID): ");
-            String parcelId = scanner.nextLine().trim();
-            
-            // 生成队列号
-            int queueNumber = worker.getNextQueueNumber();
-            
-            Customer newCustomer = new Customer(queueNumber, name, parcelId);
-            worker.addCustomer(newCustomer);
-            
-        } catch (Exception e) {
-            log.error("Error adding new customer: " + e.getMessage());
-        }
+        SwingUtilities.invokeLater(() -> {
+            DepotModel model = new DepotModel(worker);
+            AddCustomerDialog dialog = new AddCustomerDialog(null, model);
+            dialog.setVisible(true);
+        });
     }
     
     private void showSystemStatus() {
@@ -189,15 +177,11 @@ public class Manager {
     }
     
     private void removeCustomer() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("请输入要删除的客户姓名 (Enter customer name to remove): ");
-        String name = scanner.nextLine().trim();
-        
-        if (worker.removeCustomer(name)) {
-            System.out.println("客户已成功删除 (Customer successfully removed)");
-        } else {
-            System.out.println("未找到该客户 (Customer not found)");
-        }
+        SwingUtilities.invokeLater(() -> {
+            DepotModel model = new DepotModel(worker);
+            MainFrame frame = new MainFrame(model);
+            frame.showRemoveCustomerDialog();
+        });
     }
     
     public static void main(String[] args) {

@@ -42,7 +42,13 @@ public class MainFrame extends JFrame implements Observer {
         JToolBar toolBar = new JToolBar();
         JButton addParcelButton = new JButton("添加包裹 (Add Parcel)");
         addParcelButton.addActionListener(e -> showAddParcelDialog());
+        JButton addCustomerButton = new JButton("添加客户 (Add Customer)");
+        addCustomerButton.addActionListener(e -> showAddCustomerDialog());
+        JButton removeCustomerButton = new JButton("删除客户 (Remove Customer)");
+        removeCustomerButton.addActionListener(e -> showRemoveCustomerDialog());
         toolBar.add(addParcelButton);
+        toolBar.add(addCustomerButton);
+        toolBar.add(removeCustomerButton);
         mainPanel.add(toolBar, BorderLayout.NORTH);
         
         add(mainPanel);
@@ -60,6 +66,32 @@ public class MainFrame extends JFrame implements Observer {
     private void showAddParcelDialog() {
         AddParcelDialog dialog = new AddParcelDialog(this, model);
         dialog.setVisible(true);
+    }
+    
+    private void showAddCustomerDialog() {
+        AddCustomerDialog dialog = new AddCustomerDialog(this, model);
+        dialog.setVisible(true);
+    }
+    
+    public void showRemoveCustomerDialog() {
+        String name = JOptionPane.showInputDialog(this,
+            "请输入要删除的客户姓名 (Enter customer name to remove):",
+            "删除客户 (Remove Customer)",
+            JOptionPane.QUESTION_MESSAGE);
+            
+        if (name != null && !name.trim().isEmpty()) {
+            if (model.removeCustomer(name.trim())) {
+                JOptionPane.showMessageDialog(this,
+                    "客户已成功删除 (Customer successfully removed)",
+                    "成功 (Success)",
+                    JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this,
+                    "未找到该客户 (Customer not found)",
+                    "错误 (Error)",
+                    JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }
     
     @Override
