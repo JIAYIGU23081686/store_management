@@ -5,6 +5,7 @@ import depot.model.Parcel;
 import depot.util.Log;
 import depot.gui.model.DepotModel;
 import depot.gui.view.MainFrame;
+import depot.gui.view.AddParcelDialog;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -141,35 +142,12 @@ public class Manager {
     }
     
     private void addNewParcel() {
-        Scanner scanner = new Scanner(System.in);
-        try {
-            System.out.println("请输入包裹信息 (Enter parcel information):");
-            System.out.print("ID (格式: C/X + 2-3位数字): ");
-            String id = scanner.nextLine().trim();
-            
-            System.out.print("在仓库的天数 (Days in depot): ");
-            int days = Integer.parseInt(scanner.nextLine());
-            
-            System.out.print("重量 (Weight): ");
-            double weight = Double.parseDouble(scanner.nextLine());
-            
-            System.out.print("长度 (Length): ");
-            int length = Integer.parseInt(scanner.nextLine());
-            
-            System.out.print("宽度 (Width): ");
-            int width = Integer.parseInt(scanner.nextLine());
-            
-            System.out.print("高度 (Height): ");
-            int height = Integer.parseInt(scanner.nextLine());
-            
-            Parcel newParcel = new Parcel(id, days, weight, length, width, height);
-            worker.addParcel(newParcel);
-            
-        } catch (NumberFormatException e) {
-            log.error("Invalid number format: " + e.getMessage());
-        } catch (Exception e) {
-            log.error("Error adding new parcel: " + e.getMessage());
-        }
+        // 使用GUI显示添加包裹对话框
+        SwingUtilities.invokeLater(() -> {
+            DepotModel model = new DepotModel(worker);
+            AddParcelDialog dialog = new AddParcelDialog(null, model);
+            dialog.setVisible(true);
+        });
     }
     
     private void addNewCustomer() {

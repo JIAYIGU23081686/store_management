@@ -37,4 +37,9 @@ public class DepotModel extends Observable {
     public Worker getWorker() {
         return worker;
     }
+    
+    public void addParcel(Parcel parcel) {
+        worker.addParcel(parcel);
+        refreshData();
+    }
 } 

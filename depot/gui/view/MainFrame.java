@@ -38,6 +38,13 @@ public class MainFrame extends JFrame implements Observer {
         statisticsPanel = new StatisticsPanel();
         mainPanel.add(statisticsPanel, BorderLayout.SOUTH);
         
+        // 创建工具栏
+        JToolBar toolBar = new JToolBar();
+        JButton addParcelButton = new JButton("添加包裹 (Add Parcel)");
+        addParcelButton.addActionListener(e -> showAddParcelDialog());
+        toolBar.add(addParcelButton);
+        mainPanel.add(toolBar, BorderLayout.NORTH);
+        
         add(mainPanel);
         
         // 更新显示
@@ -48,6 +55,11 @@ public class MainFrame extends JFrame implements Observer {
         customerPanel.updateCustomers(model.getCustomers());
         parcelPanel.updateParcels(model.getParcels());
         statisticsPanel.updateStatistics(model.getWorker());
+    }
+    
+    private void showAddParcelDialog() {
+        AddParcelDialog dialog = new AddParcelDialog(this, model);
+        dialog.setVisible(true);
     }
     
     @Override
